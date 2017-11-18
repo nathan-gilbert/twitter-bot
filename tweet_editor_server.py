@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 
 class TweetEditorHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        rootdir = 'c:/xampp/htdocs/' #file location
+        rootdir = 'htdocs/' #file location
         try:
             if self.path.endswith('.html'):
                 f = open(rootdir + self.path) #open requested file
@@ -13,7 +13,7 @@ class TweetEditorHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
 
                 #send header first
-                self.send_header('Content-type','text-html')
+                self.send_header('Content-type', 'text-html')
                 self.end_headers()
 
                 #send file content to client

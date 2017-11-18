@@ -62,7 +62,7 @@ if __name__ == "__main__":
     if working_dir != '':
         os.chdir(working_dir)
 
-    #TODO read in from json file
+    # read in the creds from JSON file
     if args["secret_file"] is not None:
         with open(args["secret_file"], 'r') as secret_file:
             json_creds = json.load(secret_file)

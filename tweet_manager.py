@@ -8,8 +8,10 @@ from datetime import datetime
 class TweetManager:
     """Tweet Manager class """
     def __init__(self):
-        self._focus_tweet_list = []     # these are the tweets that should be promoted over a period of time
-        self._most_recent_tweet_list = []   # these are the most recent tweets and should be retweeted randomly
+        # these are the tweets that should be promoted over a period of time
+        self._focus_tweet_list = []
+        # these are the most recent tweets and should be retweeted randomly
+        self._most_recent_tweet_list = []
 
     def add_focus_tweet(self, tweet):
         """ add a tweet to the focus list """

@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+#ignore json files as they contain secrets
+*.json
+.vscode
+*.txt
+*.log

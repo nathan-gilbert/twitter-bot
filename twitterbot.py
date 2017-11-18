@@ -63,18 +63,18 @@ if __name__ == "__main__":
         os.chdir(working_dir)
 
     #TODO read in from json file
-    if args["secrets"] is not None:
-        with open(args["secrets"], 'r') as secret_file:
+    if args["secret_file"] is not None:
+        with open(args["secret_file"], 'r') as secret_file:
             json_creds = json.load(secret_file)
     else:
         print("No credentials supplied. use --secrets <file>.json")
 
     #private keys and secrets
-    consumer_key = json_creds.consumer_key
-    consumer_secret = json_creds.consumer_secret
-    access_token_key = json_creds.access_token_key
-    access_token_secret = json_creds.access_token_secret
-    account_name = json_creds.account_name
+    consumer_key = json_creds["consumer_key"]
+    consumer_secret = json_creds["consumer_secret"]
+    access_token_key = json_creds["access_token_key"]
+    access_token_secret = json_creds["access_token_secret"]
+    account_name = json_creds["account_name"]
 
     #setup twython
     twitter = Twython(consumer_key, consumer_secret, access_token_key, access_token_secret)

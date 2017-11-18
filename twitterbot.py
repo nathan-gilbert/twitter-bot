@@ -35,7 +35,7 @@ if __name__ == "__main__":
     arg_parser.add_argument('--test', dest='test_tweet', action='store_true',
                             help='print a test tweet stdout only')
     arg_parser.add_argument('--secrets', dest='secret_file', action='store',
-                            help='json file to pull creds from')
+                            help='json file to pull creds from', default=None)
 
     if len(sys.argv) < 2:
         arg_parser.print_help()
@@ -63,12 +63,18 @@ if __name__ == "__main__":
         os.chdir(working_dir)
 
     #TODO read in from json file
+    if args["secrets"] is not None:
+        with open(args["secrets"], 'r') as secret_file:
+            json_creds = json.load(secret_file)
+    else:
+        print("No credentials supplied. use --secrets <file>.json")
+
     #private keys and secrets
-    consumer_key = ''
-    consumer_secret = ''
-    access_token_key = ''
-    access_token_secret = ''
-    account_name = 'nathangilbert'
+    consumer_key = json_creds.consumer_key
+    consumer_secret = json_creds.consumer_secret
+    access_token_key = json_creds.access_token_key
+    access_token_secret = json_creds.access_token_secret
+    account_name = json_creds.account_name
 
     #setup twython
     twitter = Twython(consumer_key, consumer_secret, access_token_key, access_token_secret)

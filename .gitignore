@@ -105,3 +105,4 @@ ENV/
 .vscode
 *.txt
 *.log
+*.idea

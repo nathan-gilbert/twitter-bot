@@ -34,5 +34,5 @@ class TweetManager:
         return self._focus_tweet_list[random_index]
 
     def is_last_50_tweet(self, new_tweet):
-        """Is the 'new_tweet' one of the last 5 tweets that were tweeted."""
+        """Is the 'new_tweet' one of the last 50 tweets in the TL"""
         return bool(self._most_recent_tweet_list[-50:].count(new_tweet) > 0)

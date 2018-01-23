@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import os
+#import os
 
 class TweetEditorHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):

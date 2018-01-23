@@ -135,7 +135,6 @@ if __name__ == "__main__":
 
         #select which campaign tweet to tweet again
         retweet = tm.rando_focus_tweet()
-        #TODO this seems to not be working correctly?
         while tm.is_last_50_tweet(retweet):
             retweet = tm.rando_focus_tweet()
 

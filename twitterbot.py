@@ -35,7 +35,7 @@ if __name__ == "__main__":
     arg_parser.add_argument('--test', dest='test_tweet', action='store_true',
                             help='print a test tweet stdout only')
     arg_parser.add_argument('--secrets', dest='secret_file', action='store',
-                            help='json file to pull creds from', default=None)
+                            help='json file to pull credentials from', default=None)
 
     if len(sys.argv) < 2:
         arg_parser.print_help()
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     if working_dir != '':
         os.chdir(working_dir)
 
-    # read in the creds from JSON file
+    # read in the secrets from JSON file
     if args["secret_file"] is not None:
         with open(args["secret_file"], 'r') as secret_file:
             json_creds = json.load(secret_file)

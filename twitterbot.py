@@ -83,7 +83,7 @@ if __name__ == "__main__":
         print(twitter.verify_credentials())
 
     try:
-        #gets the feed that nathangilbert sees
+        #gets the user's twitter feed
         #user_timeline = twitter.get_home_timeline(screen_name=account_name)
         #
         #https://dev.twitter.com/rest/reference/get/statuses/user_timeline
@@ -92,7 +92,7 @@ if __name__ == "__main__":
         #                                          exclude_replies=True,
         #                                          include_rts=False)
         # get the last 200 of the user's tweets
-        # use max_id to go further back in a user's timleine
+        # use max_id to go further back in a user's timeline
         user_timeline = twitter.get_user_timeline(screen_name=account_name,
                                                   count=200,
                                                   exclude_replies=True,
@@ -113,13 +113,11 @@ if __name__ == "__main__":
                 print(e)
 
     if dump_list:
-        with open('current_user_tweets.txt', 'w') as outFile:
+        with open('tl_dump.txt', 'w') as outFile:
             for tweet in user_timeline:
                 try:
                     t = tweet['text'].encode("utf-8")
                     outFile.write(t.decode("utf-8") + "\n")
-                    outFile.write("-" * 72)
-                    outFile.write("\n")
                 except UnicodeEncodeError as e:
                     continue
 

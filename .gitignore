@@ -106,3 +106,5 @@ ENV/
 *.txt
 *.log
 *.idea
+*.sqlite
+.DS_Store

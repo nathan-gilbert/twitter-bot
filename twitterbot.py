@@ -1,17 +1,11 @@
-#!/usr/bin/python3
-# Created By : Nathan Gilbert
-""" Twitter Bot for tweeting a message multiple times in order to save time and
-spread the message across different times."""
+#!/usr/local/bin/python3
 
-#externals
 import os
 import sys
 import argparse
 import datetime
 import json
 from twython import Twython, TwythonError
-
-#internals
 from tweet_manager import TweetManager
 
 if __name__ == "__main__":
@@ -90,10 +84,10 @@ if __name__ == "__main__":
         #                                          count=200,
         #                                          exclude_replies=True,
         #                                          include_rts=False)
-        # get the last 200 of the user's tweets
+        # get the last 500 of the user's tweets
         # use max_id to go further back in a user's timeline
         user_timeline = twitter.get_user_timeline(screen_name=account_name,
-                                                  count=200,
+                                                  count=500,
                                                   exclude_replies=True,
                                                   include_rts=False)
     except TwythonError as e:

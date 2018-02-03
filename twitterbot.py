@@ -15,7 +15,6 @@ from twython import Twython, TwythonError
 from tweet_manager import TweetManager
 
 if __name__ == "__main__":
-    FOCUS_TWEET_LIST = 'campaign_tweets.txt'
     LOG_FILE = 'twitter_bot.log'
     tweet_list = ""
     issue_tweet = False
@@ -124,29 +123,23 @@ if __name__ == "__main__":
     #issue a random tweet from the campaign_tweet list
     #read in the campaign tweets
     if issue_tweet:
-        with open(FOCUS_TWEET_LIST, 'r') as inFile:
-            for line in inFile:
-                #skip comments and tweet line break breaks
-                if line.startswith("#") or line.startswith("--"):
-                    continue
-                tm.add_focus_tweet(line.strip())
-
-        #select which campaign tweet to tweet again
-        retweet = tm.rando_focus_tweet()
-        while tm.is_last_50_tweet(retweet):
-            retweet = tm.rando_focus_tweet()
+        #get a tweet out of the database
+        tweet = tm.rando_sqlite_tweet()
+        while tm.is_in_last_50_tweet(tweet):
+            tweet = tm.rando_sqlite_tweet()
 
         if test_tweet:
-            print(retweet)
+            print(tweet)
         else:
             if debug:
-                print(retweet)
+                print(tweet)
 
             #update status with old tweet
             exception_thrown = False
             exception_msg = ""
             try:
-                twitter.update_status(status=retweet)
+                twitter.update_status(status=tweet)
+                #update stats
             except TwythonError as e:
                 if debug:
                     print(e.msg)
@@ -156,7 +149,7 @@ if __name__ == "__main__":
             with open(LOG_FILE, 'a') as log_file:
                 timestamp = "{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now())
                 if not exception_thrown:
-                    log_file.write(timestamp + " : " + retweet + "\n")
+                    log_file.write(timestamp + " : " + tweet + "\n")
                 else:
-                    log_file.write(timestamp + " : " + retweet + " error: " +
+                    log_file.write(timestamp + " : " + tweet + " error: " +
                                    exception_msg + "\n")

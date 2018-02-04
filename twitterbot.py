@@ -115,13 +115,14 @@ if __name__ == "__main__":
                 except UnicodeEncodeError as e:
                     continue
 
-    #issue a random tweet from the campaign_tweet list
-    #read in the campaign tweets
+    #issue a random tweet
     if issue_tweet:
         #get a tweet out of the database
         tweet = tm.rando_sqlite_tweet()
         while tm.is_in_last_50_tweet(tweet):
             tweet = tm.rando_sqlite_tweet()
+            if debug:
+                print("Tweet in last 50, finding another...")
 
         if test_tweet:
             print(tweet)

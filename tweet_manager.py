@@ -95,7 +95,7 @@ if __name__ == "__main__":
     with open(sys.argv[1], 'r') as inFile:
         tl = inFile.readlines()
     #creates new database an adds all tweets from input file
-    #tm.init_sqlite_db_with_tweets(tl)
+    tm.init_sqlite_db_with_tweets(tl)
     #appends all tweets from input file to current db
-    for t in tl:
-        tm.insert_sqlite_tweet(t)
+    #for t in tl:
+    #    tm.insert_sqlite_tweet(t)

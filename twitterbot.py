@@ -1,5 +1,5 @@
 #!/usr/local/bin/python3
-
+#
 import os
 import sys
 import argparse
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         try:
             if debug:
                 print(tweet)
-            t = tweet['text'].encode("utf-8")
+            t = tweet['text'].encode("utf-8").strip()
             tm.add_recent_tweet(t.decode("utf-8"))
         except UnicodeEncodeError as e:
             if debug:
@@ -125,6 +125,7 @@ if __name__ == "__main__":
 
         if test_tweet:
             print(tweet)
+            tm.update_sqlite_tweet_stats(tweet)
         else:
             if debug:
                 print(tweet)
@@ -133,8 +134,10 @@ if __name__ == "__main__":
             exception_thrown = False
             exception_msg = ""
             try:
+                #tweet!
                 twitter.update_status(status=tweet)
-                #update stats
+                #update stats in database
+                tm.update_sqlite_tweet_stats(tweet)
             except TwythonError as e:
                 if debug:
                     print(e.msg)

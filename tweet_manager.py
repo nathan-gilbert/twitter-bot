@@ -26,9 +26,14 @@ class TweetManager:
             self.insert_sqlite_tweet(tweet)
 
     def insert_sqlite_tweet(self, m, stop_date=""):
+        m = m.strip()
+        if len(m) > 280:
+            raise ValueError
+
         conn = sqlite3.connect(self.sqlite_name)
         c = conn.cursor()
-        c.execute("INSERT INTO tweet_list(msg, tweet_count, last_tweeted, stop_date) VALUES (?, ?, ?, ?)", (m, 0, "", stop_date))
+        c.execute("""INSERT INTO tweet_list(msg, tweet_count, last_tweeted, stop_date)
+                  VALUES (?, ?, ?, ?)""", (m, 0, "", stop_date))
         conn.commit()
         conn.close()
 
@@ -46,12 +51,20 @@ class TweetManager:
         conn = sqlite3.connect(self.sqlite_name)
         c = conn.cursor()
         current_time = str(datetime.now())
-        c.execute("SELECT * FROM tweet_list WHERE msg=?;", (m))
+        c.execute("SELECT * FROM tweet_list WHERE msg=?", (m,))
         row = c.fetchone()
         c.execute("UPDATE tweet_list SET tweet_count=?, last_tweeted=? WHERE ID=?",
                   (int(row[2])+1, current_time, row[0]))
         conn.commit()
         conn.close()
+
+    def get_all_tweets(self):
+        conn = sqlite3.connect(self.sqlite_name)
+        c = conn.cursor()
+        c.execute("SELECT * FROM tweet_list")
+        rows = c.fetchall()
+        conn.close()
+        return rows
 
     def delete_sqlite_tweet(self, m):
         conn = sqlite3.connect(self.sqlite_name)
@@ -77,8 +90,12 @@ class TweetManager:
 
 if __name__ == "__main__":
     tm = TweetManager()
+
     tl = []
     with open(sys.argv[1], 'r') as inFile:
         tl = inFile.readlines()
-
-    tm.init_sqlite_db_with_tweets(tl)
+    #creates new database an adds all tweets from input file
+    #tm.init_sqlite_db_with_tweets(tl)
+    #appends all tweets from input file to current db
+    for t in tl:
+        tm.insert_sqlite_tweet(t)

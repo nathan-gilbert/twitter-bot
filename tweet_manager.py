@@ -2,6 +2,7 @@
 """ Class for manipulating an sqlite database containing tweets & stats """
 
 import sqlite3
+import sys
 from datetime import datetime
 
 class TweetManager:
@@ -13,26 +14,26 @@ class TweetManager:
     def init_sqlite_db(self):
         conn = sqlite3.connect(self.sqlite_name)
         c = conn.cursor()
-        c.execute('''CREATE TABLE tweet_list (id integer PRIMARY KEY AUTOINCREMENT, msg text, 
+        c.execute('''CREATE TABLE tweet_list (id integer PRIMARY KEY AUTOINCREMENT, msg text,
                   tweet_count integer, last_tweeted text, stop_date text)''')
         conn.commit()
         conn.close()
 
-    def init_sqlite_db_with_tweets(self, tl):
+    def init_sqlite_db_with_tweets(self, tweets):
         self.init_sqlite_db()
-        for tweet in tl:
+        for tweet in tweets:
+            print(tweet)
             self.insert_sqlite_tweet(tweet)
 
     def insert_sqlite_tweet(self, m, stop_date=""):
         conn = sqlite3.connect(self.sqlite_name)
         c = conn.cursor()
-        c.execute('''INSERT INTO tweet_list(msg, tweet_count, last_tweeted, stop_date)
-                  VALUES ('{0}', 0, '', '{1}')'''.format(m, stop_date))
+        c.execute("INSERT INTO tweet_list(msg, tweet_count, last_tweeted, stop_date) VALUES (?, ?, ?, ?)", (m, 0, "", stop_date))
         conn.commit()
         conn.close()
 
     def rando_sqlite_tweet(self):
-        #get random tweet 
+        #get random tweet
         conn = sqlite3.connect(self.sqlite_name)
         c = conn.cursor()
         c.execute('''SELECT * FROM tweet_list ORDER BY RANDOM() LIMIT 1;''')
@@ -76,8 +77,8 @@ class TweetManager:
 
 if __name__ == "__main__":
     tm = TweetManager()
-    #tm.init_sqlite_db()
-    #tm.insert_sqlite_tweet("yellow", "2019")
-    #tm.insert_sqlite_tweet("this is my tweet", "2019")
-    msg = tm.rando_sqlite_tweet()
-    print(msg)
+    tl = []
+    with open(sys.argv[1], 'r') as inFile:
+        tl = inFile.readlines()
+
+    tm.init_sqlite_db_with_tweets(tl)

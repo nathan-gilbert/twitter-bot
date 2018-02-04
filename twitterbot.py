@@ -84,10 +84,10 @@ if __name__ == "__main__":
         #                                          count=200,
         #                                          exclude_replies=True,
         #                                          include_rts=False)
-        # get the last 500 of the user's tweets
+        # get the last 1000 of the user's tweets [can only return 3200 max]
         # use max_id to go further back in a user's timeline
         user_timeline = twitter.get_user_timeline(screen_name=account_name,
-                                                  count=500,
+                                                  count=1000,
                                                   exclude_replies=True,
                                                   include_rts=False)
     except TwythonError as e:
@@ -106,7 +106,8 @@ if __name__ == "__main__":
                 print(e)
 
     if dump_list:
-        with open('tl_dump.txt', 'w') as outFile:
+        timestamp = "{:%Y-%m-%d}".format(datetime.datetime.now())
+        with open('tl_dump-{0}.txt'.format(timestamp), 'w') as outFile:
             for tweet in user_timeline:
                 try:
                     t = tweet['text'].encode("utf-8")
